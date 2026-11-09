@@ -1,0 +1,2065 @@
+{
+  "nodes": [
+    {
+      "id": "startAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": 0,
+        "y": 240
+      },
+      "data": {
+        "id": "startAgentflow_0",
+        "label": "Start",
+        "version": 1.1,
+        "name": "startAgentflow",
+        "type": "Start",
+        "color": "#7EE787",
+        "hideInput": true,
+        "baseClasses": [
+          "Start"
+        ],
+        "category": "Agent Flows",
+        "description": "Starting point of the agentflow",
+        "inputParams": [
+          {
+            "label": "Input Type",
+            "name": "startInputType",
+            "type": "options",
+            "options": [
+              {
+                "label": "Chat Input",
+                "name": "chatInput",
+                "description": "Start the conversation with chat input"
+              },
+              {
+                "label": "Form Input",
+                "name": "formInput",
+                "description": "Start the workflow with form inputs"
+              }
+            ],
+            "default": "chatInput",
+            "id": "startAgentflow_0-input-startInputType-options",
+            "display": true
+          },
+          {
+            "label": "Ephemeral Memory",
+            "name": "startEphemeralMemory",
+            "type": "boolean",
+            "description": "Start fresh for every execution without past chat history",
+            "optional": true,
+            "id": "startAgentflow_0-input-startEphemeralMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Flow State",
+            "name": "startState",
+            "description": "Runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "string",
+                "placeholder": "Foo"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "placeholder": "Bar",
+                "optional": true
+              }
+            ],
+            "id": "startAgentflow_0-input-startState-array",
+            "display": true
+          },
+          {
+            "label": "Persist State",
+            "name": "startPersistState",
+            "type": "boolean",
+            "description": "Persist the state in the same session",
+            "optional": true,
+            "id": "startAgentflow_0-input-startPersistState-boolean",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "startInputType": "chatInput",
+          "startEphemeralMemory": true,
+          "startState": [
+            {
+              "key": "news_report",
+              "value": ""
+            },
+            {
+              "key": "analyst_report",
+              "value": ""
+            },
+            {
+              "key": "risk_report",
+              "value": ""
+            },
+            {
+              "key": "draft_note",
+              "value": ""
+            },
+            {
+              "key": "critique_result",
+              "value": ""
+            }
+          ],
+          "startPersistState": false
+        },
+        "outputAnchors": [
+          {
+            "id": "startAgentflow_0-output-startAgentflow",
+            "label": "Start",
+            "name": "startAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 0,
+        "y": 240
+      },
+      "dragging": false
+    },
+    {
+      "id": "agentAgentflow_news",
+      "type": "agentFlow",
+      "position": {
+        "x": 280,
+        "y": 40
+      },
+      "data": {
+        "id": "agentAgentflow_news",
+        "label": "News Researcher",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_news-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_news-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_news-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_news-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_news-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_news-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_news-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_news-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You are the News Researcher on a financial research desk.</p><p>Use the research question. Describe the headline themes it asks about.</p><p>Do not invent a publisher or a URL. If you mention a price or a headline from memory, label it as model knowledge, not a live quote.</p><p>Do not recommend buying, selling, or holding. Do not say returns are guaranteed.</p><p>Write a short news section and a few findings.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Research question: <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "news_report",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_news-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 280,
+        "y": 40
+      }
+    },
+    {
+      "id": "agentAgentflow_analyst",
+      "type": "agentFlow",
+      "position": {
+        "x": 280,
+        "y": 240
+      },
+      "data": {
+        "id": "agentAgentflow_analyst",
+        "label": "Financial Analyst",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_analyst-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_analyst-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_analyst-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_analyst-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_analyst-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_analyst-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_analyst-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_analyst-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You are the Financial Analyst on a financial research desk.</p><p>Read the research question and describe the figures a desk would check: price, valuation, margin, revenue, and the recent window.</p><p>Do not invent a URL. If you mention a figure from memory, label it as model knowledge, not a live quote.</p><p>Do not recommend a trade and do not invent a price target.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Research question: <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "analyst_report",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_analyst-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 280,
+        "y": 240
+      }
+    },
+    {
+      "id": "agentAgentflow_risk",
+      "type": "agentFlow",
+      "position": {
+        "x": 560,
+        "y": 140
+      },
+      "data": {
+        "id": "agentAgentflow_risk",
+        "label": "Risk Assessor",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_risk-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_risk-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_risk-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_risk-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_risk-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_risk-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_risk-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_risk-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You are the Risk Assessor on a financial research desk.</p><p>Use only the news report, the analyst report, and the research question.</p><p>Name downside risks those reports support. Do not add a comparison or a cause that is not in them.</p><p>Do not recommend a trade.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Research question: <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span></p><p>News report: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.news_report\" data-label=\"$flow.state.news_report\">{{ $flow.state.news_report }}</span></p><p>Analyst report: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.analyst_report\" data-label=\"$flow.state.analyst_report\">{{ $flow.state.analyst_report }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "risk_report",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_risk-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 560,
+        "y": 140
+      }
+    },
+    {
+      "id": "agentAgentflow_coordinator",
+      "type": "agentFlow",
+      "position": {
+        "x": 840,
+        "y": 140
+      },
+      "data": {
+        "id": "agentAgentflow_coordinator",
+        "label": "Coordinator",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_coordinator-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_coordinator-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_coordinator-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_coordinator-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_coordinator-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_coordinator-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_coordinator-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_coordinator-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You are the Coordinator. Write one research note from the three specialist reports.</p><p>Use these sections: News, Financials, Risks, Sources.</p><p>Keep the specialists' wording. Do not add a disclaimer. A later node adds it after the compliance check.</p><p>Under Sources, list only URLs that appear in the reports. If there are none, write: No live source URL was attached in this visual flow.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Research question: <span class=\"variable\" data-type=\"mention\" data-id=\"question\" data-label=\"question\">{{ question }}</span></p><p>News report: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.news_report\" data-label=\"$flow.state.news_report\">{{ $flow.state.news_report }}</span></p><p>Analyst report: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.analyst_report\" data-label=\"$flow.state.analyst_report\">{{ $flow.state.analyst_report }}</span></p><p>Risk report: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.risk_report\" data-label=\"$flow.state.risk_report\">{{ $flow.state.risk_report }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "draft_note",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_coordinator-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 840,
+        "y": 140
+      }
+    },
+    {
+      "id": "agentAgentflow_compliance",
+      "type": "agentFlow",
+      "position": {
+        "x": 1120,
+        "y": 140
+      },
+      "data": {
+        "id": "agentAgentflow_compliance",
+        "label": "Compliance Checker",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_compliance-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_compliance-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_compliance-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_compliance-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_compliance-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_compliance-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_compliance-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_compliance-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You are the Compliance Checker.</p><p>Your reply MUST start with PASS or REVISE.</p><p>Start with PASS only when the draft contains the words \"not investment advice\" and does not instruct the reader to buy, sell, or hold, and does not say returns are guaranteed.</p><p>Otherwise start with REVISE and name the problem in one or two sentences.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Draft note: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.draft_note\" data-label=\"$flow.state.draft_note\">{{ $flow.state.draft_note }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "critique_result",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_compliance-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1120,
+        "y": 140
+      }
+    },
+    {
+      "id": "conditionAgentflow_0",
+      "type": "agentFlow",
+      "position": {
+        "x": 1400,
+        "y": 140
+      },
+      "data": {
+        "id": "conditionAgentflow_0",
+        "label": "Compliance Gate",
+        "version": 1,
+        "name": "conditionAgentflow",
+        "type": "Condition",
+        "color": "#FFB938",
+        "baseClasses": [
+          "Condition"
+        ],
+        "category": "Agent Flows",
+        "description": "Split flows based on If Else conditions",
+        "inputParams": [
+          {
+            "label": "Conditions",
+            "name": "conditions",
+            "type": "array",
+            "description": "Values to compare",
+            "acceptVariable": true,
+            "default": [
+              {
+                "type": "string",
+                "value1": "",
+                "operation": "startsWith",
+                "value2": ""
+              }
+            ],
+            "array": [
+              {
+                "label": "Type",
+                "name": "type",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "String",
+                    "name": "string"
+                  },
+                  {
+                    "label": "Number",
+                    "name": "number"
+                  },
+                  {
+                    "label": "Boolean",
+                    "name": "boolean"
+                  }
+                ],
+                "default": "string"
+              },
+              {
+                "label": "Value 1",
+                "name": "value1",
+                "type": "string",
+                "default": "",
+                "description": "First value to be compared with",
+                "acceptVariable": true,
+                "show": {
+                  "conditions[$index].type": "string"
+                }
+              },
+              {
+                "label": "Operation",
+                "name": "operation",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "Contains",
+                    "name": "contains"
+                  },
+                  {
+                    "label": "Ends With",
+                    "name": "endsWith"
+                  },
+                  {
+                    "label": "Equal",
+                    "name": "equal"
+                  },
+                  {
+                    "label": "Not Contains",
+                    "name": "notContains"
+                  },
+                  {
+                    "label": "Not Equal",
+                    "name": "notEqual"
+                  },
+                  {
+                    "label": "Regex",
+                    "name": "regex"
+                  },
+                  {
+                    "label": "Starts With",
+                    "name": "startsWith"
+                  },
+                  {
+                    "label": "Is Empty",
+                    "name": "isEmpty"
+                  },
+                  {
+                    "label": "Not Empty",
+                    "name": "notEmpty"
+                  }
+                ],
+                "default": "equal",
+                "description": "Type of operation",
+                "show": {
+                  "conditions[$index].type": "string"
+                }
+              },
+              {
+                "label": "Value 2",
+                "name": "value2",
+                "type": "string",
+                "default": "",
+                "description": "Second value to be compared with",
+                "acceptVariable": true,
+                "show": {
+                  "conditions[$index].type": "string"
+                },
+                "hide": {
+                  "conditions[$index].operation": [
+                    "isEmpty",
+                    "notEmpty"
+                  ]
+                }
+              },
+              {
+                "label": "Value 1",
+                "name": "value1",
+                "type": "number",
+                "default": "",
+                "description": "First value to be compared with",
+                "acceptVariable": true,
+                "show": {
+                  "conditions[$index].type": "number"
+                }
+              },
+              {
+                "label": "Operation",
+                "name": "operation",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "Smaller",
+                    "name": "smaller"
+                  },
+                  {
+                    "label": "Smaller Equal",
+                    "name": "smallerEqual"
+                  },
+                  {
+                    "label": "Equal",
+                    "name": "equal"
+                  },
+                  {
+                    "label": "Not Equal",
+                    "name": "notEqual"
+                  },
+                  {
+                    "label": "Larger",
+                    "name": "larger"
+                  },
+                  {
+                    "label": "Larger Equal",
+                    "name": "largerEqual"
+                  }
+                ],
+                "default": "equal",
+                "description": "Type of operation",
+                "show": {
+                  "conditions[$index].type": "number"
+                }
+              },
+              {
+                "label": "Value 2",
+                "name": "value2",
+                "type": "number",
+                "default": 0,
+                "description": "Second value to be compared with",
+                "acceptVariable": true,
+                "show": {
+                  "conditions[$index].type": "number"
+                }
+              }
+            ],
+            "id": "conditionAgentflow_0-input-conditions-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "conditions": [
+            {
+              "type": "string",
+              "value1": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.critique_result\" data-label=\"$flow.state.critique_result\">{{ $flow.state.critique_result }}</span></p>",
+              "operation": "startsWith",
+              "value2": "<p>PASS</p>"
+            }
+          ],
+          "undefined": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "conditionAgentflow_0-output-0",
+            "label": "Condition",
+            "name": "conditionAgentflow"
+          },
+          {
+            "id": "conditionAgentflow_0-output-1",
+            "label": "Condition",
+            "name": "conditionAgentflow"
+          }
+        ],
+        "outputs": {
+          "conditionAgentflow": ""
+        },
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1400,
+        "y": 140
+      },
+      "dragging": false
+    },
+    {
+      "id": "directReplyAgentflow_pass",
+      "type": "agentFlow",
+      "position": {
+        "x": 1680,
+        "y": 20
+      },
+      "data": {
+        "id": "directReplyAgentflow_pass",
+        "label": "Cited Note",
+        "version": 1,
+        "name": "directReplyAgentflow",
+        "type": "DirectReply",
+        "color": "#4DDBBB",
+        "hideOutput": true,
+        "baseClasses": [
+          "DirectReply"
+        ],
+        "category": "Agent Flows",
+        "description": "Directly reply to the user with a message",
+        "inputParams": [
+          {
+            "label": "Message",
+            "name": "directReplyMessage",
+            "type": "string",
+            "rows": 4,
+            "acceptVariable": true,
+            "id": "directReplyAgentflow_pass-input-directReplyMessage-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "directReplyMessage": "<p><strong>Research note</strong></p><p><span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.draft_note\" data-label=\"$flow.state.draft_note\">{{ $flow.state.draft_note }}</span></p><p>Compliance: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.critique_result\" data-label=\"$flow.state.critique_result\">{{ $flow.state.critique_result }}</span></p>"
+        },
+        "outputAnchors": [],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1680,
+        "y": 20
+      },
+      "dragging": false
+    },
+    {
+      "id": "agentAgentflow_refine",
+      "type": "agentFlow",
+      "position": {
+        "x": 1680,
+        "y": 320
+      },
+      "data": {
+        "id": "agentAgentflow_refine",
+        "label": "Refine",
+        "version": 3.2,
+        "name": "agentAgentflow",
+        "type": "Agent",
+        "color": "#4DD0E1",
+        "baseClasses": [
+          "Agent"
+        ],
+        "category": "Agent Flows",
+        "description": "Dynamically choose and utilize tools during runtime, enabling multi-step reasoning",
+        "inputParams": [
+          {
+            "label": "Model",
+            "name": "agentModel",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "loadConfig": true,
+            "id": "agentAgentflow_refine-input-agentModel-asyncOptions",
+            "display": true
+          },
+          {
+            "label": "Messages",
+            "name": "agentMessages",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Role",
+                "name": "role",
+                "type": "options",
+                "options": [
+                  {
+                    "label": "System",
+                    "name": "system"
+                  },
+                  {
+                    "label": "Assistant",
+                    "name": "assistant"
+                  },
+                  {
+                    "label": "User",
+                    "name": "user"
+                  }
+                ]
+              },
+              {
+                "label": "Content",
+                "name": "content",
+                "type": "string",
+                "acceptVariable": true,
+                "generateInstruction": true,
+                "rows": 4
+              }
+            ],
+            "id": "agentAgentflow_refine-input-agentMessages-array",
+            "display": true
+          },
+          {
+            "label": "Tools",
+            "name": "agentTools",
+            "type": "array",
+            "optional": true,
+            "array": [
+              {
+                "label": "Tool",
+                "name": "agentSelectedTool",
+                "type": "asyncOptions",
+                "loadMethod": "listTools",
+                "loadConfig": true
+              },
+              {
+                "label": "Require Human Input",
+                "name": "agentSelectedToolRequiresHumanInput",
+                "type": "boolean",
+                "optional": true
+              }
+            ],
+            "id": "agentAgentflow_refine-input-agentTools-array",
+            "display": true
+          },
+          {
+            "label": "Enable Memory",
+            "name": "agentEnableMemory",
+            "type": "boolean",
+            "description": "Enable memory for the conversation thread",
+            "default": true,
+            "optional": true,
+            "id": "agentAgentflow_refine-input-agentEnableMemory-boolean",
+            "display": true
+          },
+          {
+            "label": "Memory Type",
+            "name": "agentMemoryType",
+            "type": "options",
+            "options": [
+              {
+                "label": "All Messages",
+                "name": "allMessages"
+              },
+              {
+                "label": "Window Size",
+                "name": "windowSize"
+              }
+            ],
+            "optional": true,
+            "default": "allMessages",
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_refine-input-agentMemoryType-options",
+            "display": true
+          },
+          {
+            "label": "Input Message",
+            "name": "agentUserMessage",
+            "type": "string",
+            "rows": 4,
+            "optional": true,
+            "acceptVariable": true,
+            "show": {
+              "agentEnableMemory": true
+            },
+            "id": "agentAgentflow_refine-input-agentUserMessage-string",
+            "display": true
+          },
+          {
+            "label": "Return Response As",
+            "name": "agentReturnResponseAs",
+            "type": "options",
+            "options": [
+              {
+                "label": "User Message",
+                "name": "userMessage"
+              },
+              {
+                "label": "Assistant Message",
+                "name": "assistantMessage"
+              }
+            ],
+            "default": "userMessage",
+            "id": "agentAgentflow_refine-input-agentReturnResponseAs-options",
+            "display": true
+          },
+          {
+            "label": "Update Flow State",
+            "name": "agentUpdateState",
+            "description": "Update runtime state during the execution of the workflow",
+            "type": "array",
+            "optional": true,
+            "acceptVariable": true,
+            "array": [
+              {
+                "label": "Key",
+                "name": "key",
+                "type": "asyncOptions",
+                "loadMethod": "listRuntimeStateKeys"
+              },
+              {
+                "label": "Value",
+                "name": "value",
+                "type": "string",
+                "acceptVariable": true,
+                "acceptNodeOutputAsVariable": true
+              }
+            ],
+            "id": "agentAgentflow_refine-input-agentUpdateState-array",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "agentModel": "chatOpenAI",
+          "agentMessages": [
+            {
+              "role": "system",
+              "content": "<p>You rewrite a research note so it can pass the compliance check.</p><p>Remove trade instructions, guarantees, risk-free claims, and unsupported price targets.</p><p>Keep the facts and the source lines from the draft.</p><p>End with this sentence: This note is research context, not investment advice. It does not recommend buying, selling, or holding any security.</p>"
+            },
+            {
+              "role": "user",
+              "content": "<p>Draft note: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.draft_note\" data-label=\"$flow.state.draft_note\">{{ $flow.state.draft_note }}</span></p><p>Compliance critique: <span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.critique_result\" data-label=\"$flow.state.critique_result\">{{ $flow.state.critique_result }}</span></p>"
+            }
+          ],
+          "agentTools": [],
+          "agentEnableMemory": false,
+          "agentMemoryType": "allMessages",
+          "agentUserMessage": "",
+          "agentReturnResponseAs": "userMessage",
+          "agentUpdateState": [
+            {
+              "key": "draft_note",
+              "value": "<p><span class=\"variable\" data-type=\"mention\" data-id=\"output\" data-label=\"output\">{{ output }}</span></p>"
+            }
+          ],
+          "agentModelConfig": {
+            "cache": "",
+            "modelName": "gpt-4o-mini",
+            "temperature": "0",
+            "streaming": true,
+            "maxTokens": "",
+            "topP": "",
+            "frequencyPenalty": "",
+            "presencePenalty": "",
+            "timeout": "",
+            "strictToolCalling": "",
+            "stopSequence": "",
+            "basepath": "https://openrouter.ai/api/v1",
+            "proxyUrl": "",
+            "baseOptions": "",
+            "allowImageUploads": "",
+            "imageResolution": "low",
+            "reasoning": "",
+            "reasoningEffort": "",
+            "reasoningSummary": "",
+            "agentModel": "chatOpenAI"
+          }
+        },
+        "outputAnchors": [
+          {
+            "id": "agentAgentflow_refine-output-agentAgentflow",
+            "label": "Agent",
+            "name": "agentAgentflow"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1680,
+        "y": 320
+      }
+    },
+    {
+      "id": "directReplyAgentflow_refine",
+      "type": "agentFlow",
+      "position": {
+        "x": 1960,
+        "y": 320
+      },
+      "data": {
+        "id": "directReplyAgentflow_refine",
+        "label": "Revised Note",
+        "version": 1,
+        "name": "directReplyAgentflow",
+        "type": "DirectReply",
+        "color": "#4DDBBB",
+        "hideOutput": true,
+        "baseClasses": [
+          "DirectReply"
+        ],
+        "category": "Agent Flows",
+        "description": "Directly reply to the user with a message",
+        "inputParams": [
+          {
+            "label": "Message",
+            "name": "directReplyMessage",
+            "type": "string",
+            "rows": 4,
+            "acceptVariable": true,
+            "id": "directReplyAgentflow_refine-input-directReplyMessage-string",
+            "display": true
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "directReplyMessage": "<p><strong>Revised research note</strong></p><p><span class=\"variable\" data-type=\"mention\" data-id=\"$flow.state.draft_note\" data-label=\"$flow.state.draft_note\">{{ $flow.state.draft_note }}</span></p>"
+        },
+        "outputAnchors": [],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 200,
+      "height": 100,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1960,
+        "y": 320
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "agentAgentflow_news",
+      "targetHandle": "agentAgentflow_news",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-agentAgentflow_news-agentAgentflow_news"
+    },
+    {
+      "source": "startAgentflow_0",
+      "sourceHandle": "startAgentflow_0-output-startAgentflow",
+      "target": "agentAgentflow_analyst",
+      "targetHandle": "agentAgentflow_analyst",
+      "data": {
+        "sourceColor": "#7EE787",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "startAgentflow_0-startAgentflow_0-output-startAgentflow-agentAgentflow_analyst-agentAgentflow_analyst"
+    },
+    {
+      "source": "agentAgentflow_news",
+      "sourceHandle": "agentAgentflow_news-output-agentAgentflow",
+      "target": "agentAgentflow_risk",
+      "targetHandle": "agentAgentflow_risk",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_news-agentAgentflow_news-output-agentAgentflow-agentAgentflow_risk-agentAgentflow_risk"
+    },
+    {
+      "source": "agentAgentflow_analyst",
+      "sourceHandle": "agentAgentflow_analyst-output-agentAgentflow",
+      "target": "agentAgentflow_risk",
+      "targetHandle": "agentAgentflow_risk",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_analyst-agentAgentflow_analyst-output-agentAgentflow-agentAgentflow_risk-agentAgentflow_risk"
+    },
+    {
+      "source": "agentAgentflow_risk",
+      "sourceHandle": "agentAgentflow_risk-output-agentAgentflow",
+      "target": "agentAgentflow_coordinator",
+      "targetHandle": "agentAgentflow_coordinator",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_risk-agentAgentflow_risk-output-agentAgentflow-agentAgentflow_coordinator-agentAgentflow_coordinator"
+    },
+    {
+      "source": "agentAgentflow_coordinator",
+      "sourceHandle": "agentAgentflow_coordinator-output-agentAgentflow",
+      "target": "agentAgentflow_compliance",
+      "targetHandle": "agentAgentflow_compliance",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#F6C945",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_coordinator-agentAgentflow_coordinator-output-agentAgentflow-agentAgentflow_compliance-agentAgentflow_compliance"
+    },
+    {
+      "source": "agentAgentflow_compliance",
+      "sourceHandle": "agentAgentflow_compliance-output-agentAgentflow",
+      "target": "conditionAgentflow_0",
+      "targetHandle": "conditionAgentflow_0",
+      "data": {
+        "sourceColor": "#F6C945",
+        "targetColor": "#F85149",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_compliance-agentAgentflow_compliance-output-agentAgentflow-conditionAgentflow_0-conditionAgentflow_0"
+    },
+    {
+      "source": "conditionAgentflow_0",
+      "sourceHandle": "conditionAgentflow_0-output-0",
+      "target": "directReplyAgentflow_pass",
+      "targetHandle": "directReplyAgentflow_pass",
+      "data": {
+        "sourceColor": "#F85149",
+        "targetColor": "#7EE787",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "conditionAgentflow_0-conditionAgentflow_0-output-0-directReplyAgentflow_pass-directReplyAgentflow_pass"
+    },
+    {
+      "source": "conditionAgentflow_0",
+      "sourceHandle": "conditionAgentflow_0-output-1",
+      "target": "agentAgentflow_refine",
+      "targetHandle": "agentAgentflow_refine",
+      "data": {
+        "sourceColor": "#F85149",
+        "targetColor": "#4DD0E1",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "conditionAgentflow_0-conditionAgentflow_0-output-1-agentAgentflow_refine-agentAgentflow_refine"
+    },
+    {
+      "source": "agentAgentflow_refine",
+      "sourceHandle": "agentAgentflow_refine-output-agentAgentflow",
+      "target": "directReplyAgentflow_refine",
+      "targetHandle": "directReplyAgentflow_refine",
+      "data": {
+        "sourceColor": "#4DD0E1",
+        "targetColor": "#7EE787",
+        "isHumanInput": false
+      },
+      "type": "agentFlow",
+      "id": "agentAgentflow_refine-agentAgentflow_refine-output-agentAgentflow-directReplyAgentflow_refine-directReplyAgentflow_refine"
+    }
+  ]
+}
