@@ -14,8 +14,6 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Copy `.env.example` to `.env` and set `OPENROUTER_API_KEY`. `OPENAI_API_KEY` works instead if you have one. If this folder has no `.env`, the key from an earlier capstone is used.
-
 ## Run
 
 ```powershell
@@ -83,7 +81,6 @@ flowchart TD
 
 The same desk is the Flowise agentflow in `flowise/financial_research_coordinator.json`. In Flowise, open Agentflows and import that file. Attach a ChatOpenAI credential on each agent node (`gpt-4o-mini` is already selected). The saved base path is `https://openrouter.ai/api/v1`, so the OpenRouter key from `.env` works. A key from platform.openai.com needs that base path cleared. The question `Brief me on NVDA earnings risk` starts the news researcher and the financial analyst together. Risk waits for both. The coordinator writes the draft without a disclaimer, so the compliance gate takes the revise branch and the refine node adds it.
 
-This visual flow does not call the FastMCP server. Live prices and headlines stay in the Python coordinator. Figures a Flowise agent states from memory are labeled as model knowledge.
 
 ## What each file does
 
